@@ -1,0 +1,109 @@
+// ============================================================
+// Config
+// ============================================================
+const CHANNEL_ACCESS_TOKEN = "YOUR_CHANNEL_ACCESS_TOKEN";
+const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID";
+const SHEET_NAME = "回答データ";
+
+// ============================================================
+// doPost - フォーム送信受付
+// ============================================================
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents);
+
+  // スプレッドシートに書き込み
+  writeToSheet(data);
+
+  // LINE完了メッセージ送信
+  if (data.userId) {
+    sendLineMessage(data.userId, "登録が完了しました。\nありがとうございます！");
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "ok" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ============================================================
+// スプレッドシート書き込み
+// ============================================================
+function writeToSheet(data) {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+
+  // ヘッダーが無ければ作成
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      "タイムスタンプ",
+      "LINE userId",
+      "メールアドレス",
+      "電話番号",
+      "姓",
+      "名",
+      "せい",
+      "めい",
+      "生年月日",
+      "性別",
+      "大学名",
+      "学部",
+      "学科",
+      "学業種別",
+      "学年",
+      "部活・サークル",
+      "役職",
+      "出身地",
+    ]);
+  }
+
+  const birthday = data.birthYear + "年" + data.birthMonth + "月" + data.birthDay + "日";
+
+  sheet.appendRow([
+    new Date(),
+    data.userId || "",
+    data.email || "",
+    data.tel || "",
+    data.lastName || "",
+    data.firstName || "",
+    data.lastNameKana || "",
+    data.firstNameKana || "",
+    birthday,
+    data.gender || "",
+    data.university || "",
+    data.faculty || "",
+    data.department || "",
+    data.academicType || "",
+    data.grade || "",
+    data.club || "",
+    data.position || "",
+    data.prefecture || "",
+  ]);
+}
+
+// ============================================================
+// LINE Messaging API - プッシュメッセージ送信
+// ============================================================
+function sendLineMessage(userId, text) {
+  const url = "https://api.line.me/v2/bot/message/push";
+
+  const payload = {
+    to: userId,
+    messages: [
+      {
+        type: "text",
+        text: text,
+      },
+    ],
+  };
+
+  const options = {
+    method: "post",
+    contentType: "application/json",
+    headers: {
+      Authorization: "Bearer " + CHANNEL_ACCESS_TOKEN,
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+  };
+
+  UrlFetchApp.fetch(url, options);
+}
