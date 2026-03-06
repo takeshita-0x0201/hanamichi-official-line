@@ -227,6 +227,7 @@ async function handleSubmit(e) {
   if (!validateForm()) return;
 
   const btn = document.getElementById("submit-btn");
+  btn.disabled = true;
   btn.classList.add("loading");
   btn.textContent = "送信中...";
 
@@ -253,9 +254,9 @@ async function handleSubmit(e) {
   };
 
   try {
-    const res = await fetch(CONFIG.GAS_ENDPOINT, {
+    await fetch(CONFIG.GAS_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain" },
       body: JSON.stringify(data),
       mode: "no-cors",
     });
@@ -275,6 +276,7 @@ async function handleSubmit(e) {
       banner.textContent = "送信に失敗しました。もう一度お試しください。";
       banner.classList.add("show");
     }
+    btn.disabled = false;
     btn.classList.remove("loading");
     btn.textContent = "登録する";
   }

@@ -9,19 +9,34 @@ const SHEET_NAME = "リスト";
 // doPost - フォーム送信受付
 // ============================================================
 function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
+  const lock = LockService.getScriptLock();
 
-  // スプレッドシートに書き込み
-  writeToSheet(data);
+  try {
+    // 最大30秒待機して排他ロックを取得
+    lock.waitLock(30000);
 
-  // LINE完了メッセージ送信
-  if (data.userId) {
-    sendLineMessage(data.userId, "登録が完了しました。\nありがとうございます！");
+    const data = JSON.parse(e.postData.contents);
+
+    // スプレッドシートに書き込み
+    writeToSheet(data);
+
+    // LINE完了メッセージ送信
+    if (data.userId) {
+      sendLineMessage(data.userId, "登録が完了しました。\nありがとうございます！");
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "ok" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } finally {
+    lock.releaseLock();
   }
-
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok" }))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // ============================================================
