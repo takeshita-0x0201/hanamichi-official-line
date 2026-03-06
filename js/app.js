@@ -3,7 +3,7 @@
 // ============================================================
 const CONFIG = {
   LIFF_ID: "2009341370-F28iXUUO",
-  GAS_ENDPOINT: "YOUR_GAS_ENDPOINT_URL",
+  GAS_ENDPOINT: "https://script.google.com/macros/s/AKfycbz-X3V6UeS_txkLhzEa2zbGHbh4Gh4h2fE9UJbDGM8Kh6T_Gq4D0aqsM5M1uT5klxpmxg/exec",
 };
 
 // ============================================================
