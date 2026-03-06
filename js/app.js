@@ -145,7 +145,7 @@ function validateEmail(v) {
 }
 
 function validateTel(v) {
-  return /^[\d-]{10,13}$/.test(v);
+  return /^\d{2,4}-\d{2,4}-\d{3,4}$/.test(v);
 }
 
 function setError(fieldId, msg) {
@@ -169,13 +169,7 @@ function validateForm() {
 
   const fields = [
     { id: "email", check: (v) => validateEmail(v), msg: "正しいメールアドレスを入力してください" },
-    { id: "password", check: (v) => v.length >= 8, msg: "8文字以上で入力してください" },
-    {
-      id: "password-confirm",
-      check: (v) => v === document.getElementById("password").value,
-      msg: "パスワードが一致しません",
-    },
-    { id: "tel", check: (v) => validateTel(v), msg: "正しい電話番号を入力してください" },
+    { id: "tel", check: (v) => validateTel(v), msg: "ハイフン付きで入力してください（例: 090-1234-5678）" },
     { id: "last-name", check: (v) => v.length > 0, msg: "入力してください" },
     { id: "first-name", check: (v) => v.length > 0, msg: "入力してください" },
     { id: "last-name-kana", check: (v) => v.length > 0, msg: "入力してください" },
@@ -239,7 +233,6 @@ async function handleSubmit(e) {
   const data = {
     userId: userId,
     email: document.getElementById("email").value.trim(),
-    password: document.getElementById("password").value,
     tel: document.getElementById("tel").value.trim(),
     lastName: document.getElementById("last-name").value.trim(),
     firstName: document.getElementById("first-name").value.trim(),
