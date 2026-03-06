@@ -2,7 +2,7 @@
 // Config - Replace these values with your actual credentials
 // ============================================================
 const CONFIG = {
-  LIFF_ID: "YOUR_LIFF_ID",
+  LIFF_ID: "2009341370-F28iXUUO",
   GAS_ENDPOINT: "YOUR_GAS_ENDPOINT_URL",
 };
 
