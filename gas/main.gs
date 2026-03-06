@@ -2,7 +2,7 @@
 // Config
 // ============================================================
 const CHANNEL_ACCESS_TOKEN = "YOUR_CHANNEL_ACCESS_TOKEN";
-const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID";
+const SPREADSHEET_ID = "1FVmFb9QQa0czHi6FSPzZnTpqkYF8i6q7X_ha6Rbka6k";
 const SHEET_NAME = "リスト";
 
 // ============================================================
