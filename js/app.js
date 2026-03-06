@@ -237,11 +237,6 @@ async function handleSubmit(e) {
     return;
   }
 
-  const btn = document.getElementById("submit-btn");
-  btn.disabled = true;
-  btn.classList.add("loading");
-  btn.innerHTML = '<span class="spinner"></span>送信中...';
-
   const data = {
     userId: userId,
     email: document.getElementById("email").value.trim(),
@@ -263,6 +258,55 @@ async function handleSubmit(e) {
     position: document.getElementById("position").value,
     prefecture: document.getElementById("prefecture").value,
   };
+
+  // 確認モーダル表示
+  showConfirmModal(data);
+}
+
+function getConfirmHTML(data) {
+  const birthday = data.birthYear + "年" + data.birthMonth + "月" + data.birthDay + "日";
+  const rows = [
+    ["メールアドレス", data.email],
+    ["電話番号", data.tel],
+    ["氏名", data.lastName + " " + data.firstName],
+    ["ふりがな", data.lastNameKana + " " + data.firstNameKana],
+    ["生年月日", birthday],
+    ["性別", data.gender],
+    ["大学名", data.university],
+    ["学部", data.faculty],
+    ["学科", data.department],
+    ["学業種別", data.academicType],
+    ["学年", data.grade],
+    ["部活・サークル", data.club],
+    ["役職", data.position],
+    ["出身地", data.prefecture],
+  ];
+
+  return rows
+    .map(([label, value]) => `<div class="confirm-row"><span class="confirm-label">${label}</span><span class="confirm-value">${value}</span></div>`)
+    .join("");
+}
+
+function showConfirmModal(data) {
+  const modal = document.getElementById("confirm-modal");
+  document.getElementById("confirm-body").innerHTML = getConfirmHTML(data);
+  modal.classList.add("show");
+
+  document.getElementById("confirm-cancel").onclick = () => {
+    modal.classList.remove("show");
+  };
+
+  document.getElementById("confirm-submit").onclick = () => {
+    modal.classList.remove("show");
+    submitData(data);
+  };
+}
+
+async function submitData(data) {
+  const btn = document.getElementById("submit-btn");
+  btn.disabled = true;
+  btn.classList.add("loading");
+  btn.innerHTML = '<span class="spinner"></span>送信中...';
 
   try {
     await fetch(CONFIG.GAS_ENDPOINT, {

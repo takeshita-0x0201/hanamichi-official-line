@@ -372,3 +372,114 @@ input[list] {
 .error-banner.show {
   display: block;
 }
+
+/* Confirm Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  padding: 20px 20px 0;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+}
+
+.confirm-row:last-child {
+  border-bottom: none;
+}
+
+.confirm-label {
+  font-size: 0.8125rem;
+  color: #6e6e73;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.confirm-value {
+  font-size: 0.875rem;
+  color: #1d1d1f;
+  font-weight: 500;
+  text-align: right;
+  word-break: break-all;
+}
+
+.modal-note {
+  font-size: 0.875rem;
+  color: #6e6e73;
+  text-align: center;
+  padding: 0 20px 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 20px;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-btn-cancel {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+.modal-btn-cancel:active {
+  background: #e5e5ea;
+}
+
+.modal-btn-submit {
+  background: #007aff;
+  color: #fff;
+}
+
+.modal-btn-submit:active {
+  opacity: 0.85;
+}
