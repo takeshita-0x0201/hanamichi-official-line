@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>情報登録</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<div class="form-container" id="form-screen">
+  <div class="form-header">
+    <h1>情報登録</h1>
+    <p>以下の情報を入力してください</p>
+  </div>
+
+  <div class="error-banner"></div>
+
+  <form id="register-form" novalidate>
+
+    <!-- Account -->
+    <div class="form-section">
+      <h2>アカウント情報</h2>
+
+      <div class="field-group">
+        <label for="email">メールアドレス<span class="required">*</span></label>
+        <input type="email" id="email" placeholder="example@mail.com" inputmode="email" autocomplete="email">
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="password">パスワード<span class="required">*</span></label>
+        <input type="password" id="password" placeholder="8文字以上" autocomplete="new-password">
+        <div class="password-hint">8文字以上で入力してください</div>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="password-confirm">パスワード（確認）<span class="required">*</span></label>
+        <input type="password" id="password-confirm" placeholder="もう一度入力" autocomplete="new-password">
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="tel">電話番号<span class="required">*</span></label>
+        <input type="tel" id="tel" placeholder="090-1234-5678" inputmode="tel" autocomplete="tel">
+        <div class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Personal -->
+    <div class="form-section">
+      <h2>個人情報</h2>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="last-name">姓<span class="required">*</span></label>
+          <input type="text" id="last-name" placeholder="山田" autocomplete="family-name">
+          <div class="error-message"></div>
+        </div>
+        <div class="field-group">
+          <label for="first-name">名<span class="required">*</span></label>
+          <input type="text" id="first-name" placeholder="太郎" autocomplete="given-name">
+          <div class="error-message"></div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="last-name-kana">せい<span class="required">*</span></label>
+          <input type="text" id="last-name-kana" placeholder="やまだ">
+          <div class="error-message"></div>
+        </div>
+        <div class="field-group">
+          <label for="first-name-kana">めい<span class="required">*</span></label>
+          <input type="text" id="first-name-kana" placeholder="たろう">
+          <div class="error-message"></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>生年月日<span class="required">*</span></label>
+        <div class="date-row">
+          <select id="birth-year" required><option value="" disabled selected>年</option></select>
+          <select id="birth-month" required><option value="" disabled selected>月</option></select>
+          <select id="birth-day" required><option value="" disabled selected>日</option></select>
+        </div>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="gender">性別<span class="required">*</span></label>
+        <select id="gender" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="form-section">
+      <h2>学校情報</h2>
+
+      <div class="field-group">
+        <label for="university">大学名<span class="required">*</span></label>
+        <input type="text" id="university" list="university-list" placeholder="大学名を入力" autocomplete="organization">
+        <datalist id="university-list"></datalist>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="faculty">学部<span class="required">*</span></label>
+          <input type="text" id="faculty" placeholder="経済学部">
+          <div class="error-message"></div>
+        </div>
+        <div class="field-group">
+          <label for="department">学科<span class="required">*</span></label>
+          <input type="text" id="department" placeholder="経済学科">
+          <div class="error-message"></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="academic-type">学業種別<span class="required">*</span></label>
+        <select id="academic-type" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="grade">学年<span class="required">*</span></label>
+        <select id="grade" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="form-section">
+      <h2>活動情報</h2>
+
+      <div class="field-group">
+        <label for="club">部活・サークル<span class="required">*</span></label>
+        <select id="club" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="position">役職<span class="required">*</span></label>
+        <select id="position" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="prefecture">出身地<span class="required">*</span></label>
+        <select id="prefecture" required><option value="" disabled selected>選択してください</option></select>
+        <div class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Agreement -->
+    <div class="form-section">
+      <div class="field-group">
+        <label class="checkbox-group">
+          <input type="checkbox" id="agree">
+          <span>個人情報の取り扱いに同意する</span>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" id="submit-btn" class="submit-btn">登録する</button>
+  </form>
+</div>
+
+<!-- Complete -->
+<div class="complete-screen" id="complete-screen">
+  <div class="check-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <h2>登録が完了しました</h2>
+  <p>ご登録ありがとうございます</p>
+</div>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

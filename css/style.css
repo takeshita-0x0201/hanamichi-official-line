@@ -1,0 +1,307 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 0 0 env(safe-area-inset-bottom);
+}
+
+.form-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 20px 40px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.form-header h1 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: 0.02em;
+}
+
+.form-header p {
+  font-size: 0.875rem;
+  color: #6e6e73;
+  margin-top: 8px;
+}
+
+/* Sections */
+.form-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+}
+
+.form-section h2 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+/* Field groups */
+.field-group {
+  margin-bottom: 20px;
+}
+
+.field-group:last-child {
+  margin-bottom: 0;
+}
+
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+
+.field-row .field-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+}
+
+label .required {
+  color: #ff3b30;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+select {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  font-size: 1rem;
+  color: #1d1d1f;
+  background: #f5f5f7;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+select:focus {
+  background: #fff;
+  border-color: #007aff;
+}
+
+input::placeholder {
+  color: #aeaeb2;
+}
+
+/* Select arrow */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23aeaeb2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+select:invalid,
+select option[value=""] {
+  color: #aeaeb2;
+}
+
+select option {
+  color: #1d1d1f;
+}
+
+/* Date selects row */
+.date-row {
+  display: flex;
+  gap: 8px;
+}
+
+.date-row select {
+  flex: 1;
+}
+
+.date-row select:first-child {
+  flex: 1.5;
+}
+
+/* Validation */
+.field-group.error input,
+.field-group.error select {
+  border-color: #ff3b30;
+  background: #fff5f5;
+}
+
+.error-message {
+  font-size: 0.75rem;
+  color: #ff3b30;
+  margin-top: 4px;
+  display: none;
+}
+
+.field-group.error .error-message {
+  display: block;
+}
+
+/* Password strength */
+.password-hint {
+  font-size: 0.75rem;
+  color: #aeaeb2;
+  margin-top: 4px;
+}
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: #007aff;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.checkbox-group span {
+  font-size: 0.875rem;
+  color: #1d1d1f;
+  line-height: 1.5;
+}
+
+.checkbox-group a {
+  color: #007aff;
+  text-decoration: none;
+}
+
+/* Submit */
+.submit-btn {
+  display: block;
+  width: 100%;
+  height: 52px;
+  background: #007aff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: opacity 0.15s;
+}
+
+.submit-btn:active {
+  opacity: 0.85;
+}
+
+.submit-btn:disabled {
+  background: #c7c7cc;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.submit-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Complete screen */
+.complete-screen {
+  display: none;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.complete-screen.show {
+  display: block;
+}
+
+.complete-screen .check-icon {
+  width: 64px;
+  height: 64px;
+  background: #34c759;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.complete-screen .check-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #fff;
+}
+
+.complete-screen h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.complete-screen p {
+  font-size: 0.875rem;
+  color: #6e6e73;
+}
+
+/* Datalist input indicator */
+input[list] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23aeaeb2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* Global error banner */
+.error-banner {
+  display: none;
+  background: #fff5f5;
+  border: 1px solid #ff3b30;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  color: #ff3b30;
+}
+
+.error-banner.show {
+  display: block;
+}
