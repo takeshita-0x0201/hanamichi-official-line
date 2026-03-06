@@ -148,6 +148,28 @@ function validateTel(v) {
   return /^\d{2,4}-\d{2,4}-\d{3,4}$/.test(v);
 }
 
+function formatTel(input) {
+  const digits = input.value.replace(/\D/g, "");
+  let formatted = "";
+  if (digits.startsWith("0120") || digits.startsWith("0800")) {
+    // フリーダイヤル: 0120-xxx-xxx / 0800-xxx-xxx
+    formatted = digits.slice(0, 4);
+    if (digits.length > 4) formatted += "-" + digits.slice(4, 7);
+    if (digits.length > 7) formatted += "-" + digits.slice(7, 10);
+  } else if (digits.startsWith("090") || digits.startsWith("080") || digits.startsWith("070") || digits.startsWith("050")) {
+    // 携帯: 090-xxxx-xxxx
+    formatted = digits.slice(0, 3);
+    if (digits.length > 3) formatted += "-" + digits.slice(3, 7);
+    if (digits.length > 7) formatted += "-" + digits.slice(7, 11);
+  } else {
+    // 固定電話等: xxx-xxxx-xxxx
+    formatted = digits.slice(0, 3);
+    if (digits.length > 3) formatted += "-" + digits.slice(3, 7);
+    if (digits.length > 7) formatted += "-" + digits.slice(7, 11);
+  }
+  input.value = formatted;
+}
+
 function setError(fieldId, msg) {
   const group = document.getElementById(fieldId)?.closest(".field-group");
   if (!group) return;
@@ -169,7 +191,7 @@ function validateForm() {
 
   const fields = [
     { id: "email", check: (v) => validateEmail(v), msg: "正しいメールアドレスを入力してください" },
-    { id: "tel", check: (v) => validateTel(v), msg: "ハイフン付きで入力してください（例: 090-1234-5678）" },
+    { id: "tel", check: (v) => validateTel(v), msg: "正しい電話番号を入力してください" },
     { id: "last-name", check: (v) => v.length > 0, msg: "入力してください" },
     { id: "first-name", check: (v) => v.length > 0, msg: "入力してください" },
     { id: "last-name-kana", check: (v) => v.length > 0, msg: "入力してください" },
@@ -343,6 +365,9 @@ async function submitData(data) {
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all([loadAllOptions(), initLiff()]);
   document.getElementById("register-form").addEventListener("submit", handleSubmit);
+
+  // 電話番号ハイフン自動付与
+  document.getElementById("tel").addEventListener("input", (e) => formatTel(e.target));
 
   // Real-time validation: clear error on input
   document.querySelectorAll("input, select").forEach((el) => {
