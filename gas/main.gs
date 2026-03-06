@@ -67,6 +67,7 @@ function writeToSheet(data) {
       "部活・サークル",
       "役職",
       "出身地",
+      "個人情報の取り扱い",
     ]);
   }
 
@@ -91,6 +92,7 @@ function writeToSheet(data) {
     data.club || "",
     data.position || "",
     data.prefecture || "",
+    "同意する",
   ]);
 }
 
