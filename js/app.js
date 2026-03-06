@@ -226,10 +226,21 @@ async function handleSubmit(e) {
   e.preventDefault();
   if (!validateForm()) return;
 
+  // userId未取得チェック
+  if (!userId) {
+    const banner = document.querySelector(".error-banner");
+    if (banner) {
+      banner.textContent = "LINE情報の取得に失敗しました。画面を閉じてもう一度お試しください。";
+      banner.classList.add("show");
+      banner.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
+
   const btn = document.getElementById("submit-btn");
   btn.disabled = true;
   btn.classList.add("loading");
-  btn.textContent = "送信中...";
+  btn.innerHTML = '<span class="spinner"></span>送信中...';
 
   const data = {
     userId: userId,
@@ -278,7 +289,7 @@ async function handleSubmit(e) {
     }
     btn.disabled = false;
     btn.classList.remove("loading");
-    btn.textContent = "登録する";
+    btn.innerHTML = "登録する";
   }
 }
 
