@@ -230,7 +230,7 @@ async function handleSubmit(e) {
   if (!userId) {
     const banner = document.querySelector(".error-banner");
     if (banner) {
-      banner.textContent = "LINE情報の取得に失敗しました。画面を閉じてもう一度お試しください。";
+      banner.textContent = "ネットワークエラーが発生しました。画面を閉じてもう一度お試しください。";
       banner.classList.add("show");
       banner.scrollIntoView({ behavior: "smooth", block: "center" });
     }
