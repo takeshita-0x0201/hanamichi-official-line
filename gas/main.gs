@@ -1,7 +1,7 @@
 // ============================================================
 // Config
 // ============================================================
-const CHANNEL_ACCESS_TOKEN = "YOUR_CHANNEL_ACCESS_TOKEN";
+const CHANNEL_ACCESS_TOKEN = "i0ZguquQUtec1Gb+ZnJrX2No6GqFTboZ9fq/YWYRBXa4N7iRWmoBhYkQKO6nKuNix7rxR0m4sfduZVYCzYOrMvgVkUAftX/XEy4kUfjZ28yj2eFP2DMIJ/7jAak2e+L07SL+5hg80gxYlo9OqpqCVQdB04t89/1O/w1cDnyilFU=";
 const SPREADSHEET_ID = "1FVmFb9QQa0czHi6FSPzZnTpqkYF8i6q7X_ha6Rbka6k";
 const SHEET_NAME = "リスト";
 
