@@ -3,7 +3,7 @@
 // ============================================================
 const CHANNEL_ACCESS_TOKEN = "YOUR_CHANNEL_ACCESS_TOKEN";
 const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID";
-const SHEET_NAME = "回答データ";
+const SHEET_NAME = "リスト";
 
 // ============================================================
 // doPost - フォーム送信受付
