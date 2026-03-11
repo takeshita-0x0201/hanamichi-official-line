@@ -139,6 +139,20 @@ async function loadEventSchedules() {
       label.appendChild(span);
       group.appendChild(label);
     });
+    // 「日程が合わない」を末尾に追加
+    const noMatchLabel = document.createElement("label");
+    noMatchLabel.className = "radio-label";
+    const noMatchInput = document.createElement("input");
+    noMatchInput.type = "radio";
+    noMatchInput.name = "event-schedule";
+    noMatchInput.value = "日程が合わない";
+    noMatchInput.id = "event-schedule-none";
+    const noMatchSpan = document.createElement("span");
+    noMatchSpan.textContent = "日程が合わない";
+    noMatchLabel.appendChild(noMatchInput);
+    noMatchLabel.appendChild(noMatchSpan);
+    group.appendChild(noMatchLabel);
+
     section.style.display = "";
   } catch (e) {
     console.error("Failed to load event schedules:", e);
