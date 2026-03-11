@@ -30,11 +30,14 @@ function doGet(e) {
       var date = displayData[i][1];
       var time = displayData[i][2] || "";
       schedules.push({
+        sortKey: rawDate instanceof Date ? rawDate.getTime() : 0,
         date: date,
         time: time,
         label: time ? date + " " + time : date,
       });
     }
+    schedules.sort(function(a, b) { return a.sortKey - b.sortKey; });
+    schedules.forEach(function(s) { delete s.sortKey; });
   }
 
   const jsonStr = JSON.stringify({ schedules: schedules });
