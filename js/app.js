@@ -96,10 +96,30 @@ function populateBirthdate() {
   }
 }
 
+function fetchGasJson(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = "_gasCallback_" + Date.now();
+    const script = document.createElement("script");
+
+    window[callbackName] = (data) => {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      resolve(data);
+    };
+
+    script.src = url + (url.includes("?") ? "&" : "?") + "callback=" + callbackName;
+    script.onerror = () => {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      reject(new Error("Failed to load script"));
+    };
+    document.head.appendChild(script);
+  });
+}
+
 async function loadEventSchedules() {
   try {
-    const res = await fetch(CONFIG.GAS_ENDPOINT);
-    const json = await res.json();
+    const json = await fetchGasJson(CONFIG.GAS_ENDPOINT);
     const schedules = json.schedules || [];
     if (schedules.length === 0) return;
 

@@ -8,31 +8,38 @@ const SHEET_NAME = "リスト";
 // ============================================================
 // doGet - イベント日程データを返却
 // ============================================================
-function doGet() {
+function doGet(e) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName("イベント日程");
 
-  if (!sheet || sheet.getLastRow() <= 1) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ schedules: [] }))
-      .setMimeType(ContentService.MimeType.JSON);
+  var schedules = [];
+  if (sheet && sheet.getLastRow() > 1) {
+    const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+    schedules = data
+      .filter(function(row) { return row[1] !== ""; })
+      .map(function(row) {
+        var date = row[1].toString();
+        var time = row[2] ? row[2].toString() : "";
+        return {
+          date: date,
+          time: time,
+          label: time ? date + " " + time : date,
+        };
+      });
   }
 
-  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
-  const schedules = data
-    .filter(function(row) { return row[1] !== ""; })
-    .map(function(row) {
-      var date = row[1].toString();
-      var time = row[2] ? row[2].toString() : "";
-      return {
-        date: date,
-        time: time,
-        label: time ? date + " " + time : date,
-      };
-    });
+  const jsonStr = JSON.stringify({ schedules: schedules });
+  const callback = e && e.parameter && e.parameter.callback;
+
+  if (callback) {
+    // JSONP
+    return ContentService
+      .createTextOutput(callback + "(" + jsonStr + ")")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
 
   return ContentService
-    .createTextOutput(JSON.stringify({ schedules: schedules }))
+    .createTextOutput(jsonStr)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
