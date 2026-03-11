@@ -6,6 +6,37 @@ const SPREADSHEET_ID = "1FVmFb9QQa0czHi6FSPzZnTpqkYF8i6q7X_ha6Rbka6k";
 const SHEET_NAME = "リスト";
 
 // ============================================================
+// doGet - イベント日程データを返却
+// ============================================================
+function doGet() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName("イベント日程");
+
+  if (!sheet || sheet.getLastRow() <= 1) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ schedules: [] }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+  const schedules = data
+    .filter(function(row) { return row[1] !== ""; })
+    .map(function(row) {
+      var date = row[1].toString();
+      var time = row[2] ? row[2].toString() : "";
+      return {
+        date: date,
+        time: time,
+        label: time ? date + " " + time : date,
+      };
+    });
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ schedules: schedules }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ============================================================
 // doPost - フォーム送信受付
 // ============================================================
 function doPost(e) {
@@ -67,6 +98,7 @@ function writeToSheet(data) {
       "部活・サークル",
       "役職",
       "出身地",
+      "参加日程",
       "個人情報の取り扱い",
     ]);
   }
@@ -92,6 +124,7 @@ function writeToSheet(data) {
     data.club || "",
     data.position || "",
     data.prefecture || "",
+    data.eventSchedule || "",
     "同意する",
   ]);
 }

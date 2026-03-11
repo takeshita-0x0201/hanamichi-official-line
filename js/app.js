@@ -96,6 +96,35 @@ function populateBirthdate() {
   }
 }
 
+async function loadEventSchedules() {
+  try {
+    const res = await fetch(CONFIG.GAS_ENDPOINT);
+    const json = await res.json();
+    const schedules = json.schedules || [];
+    if (schedules.length === 0) return;
+
+    const section = document.getElementById("event-schedule-section");
+    const group = document.getElementById("event-schedule-group");
+    schedules.forEach((s, i) => {
+      const label = document.createElement("label");
+      label.className = "radio-label";
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "event-schedule";
+      input.value = s.label;
+      input.id = "event-schedule-" + i;
+      const span = document.createElement("span");
+      span.textContent = s.label;
+      label.appendChild(input);
+      label.appendChild(span);
+      group.appendChild(label);
+    });
+    section.style.display = "";
+  } catch (e) {
+    console.error("Failed to load event schedules:", e);
+  }
+}
+
 async function loadAllOptions() {
   const [universities, prefectures, clubs, academicTypes, grades, positions, genders] =
     await Promise.all([
@@ -220,6 +249,21 @@ function validateForm() {
     }
   }
 
+  // イベント日程のバリデーション（表示中のみ）
+  const scheduleSection = document.getElementById("event-schedule-section");
+  if (scheduleSection && scheduleSection.style.display !== "none") {
+    const selected = document.querySelector('input[name="event-schedule"]:checked');
+    if (!selected) {
+      const group = document.getElementById("event-schedule-group").closest(".field-group");
+      if (group) {
+        group.classList.add("error");
+        const errEl = group.querySelector(".error-message");
+        if (errEl) errEl.textContent = "参加日程を選択してください";
+      }
+      valid = false;
+    }
+  }
+
   const agree = document.getElementById("agree");
   if (agree && !agree.checked) {
     const banner = document.querySelector(".error-banner");
@@ -279,6 +323,7 @@ async function handleSubmit(e) {
     club: document.getElementById("club").value,
     position: document.getElementById("position").value,
     prefecture: document.getElementById("prefecture").value,
+    eventSchedule: (document.querySelector('input[name="event-schedule"]:checked') || {}).value || "",
   };
 
   // 確認モーダル表示
@@ -303,6 +348,10 @@ function getConfirmHTML(data) {
     ["役職", data.position],
     ["出身地", data.prefecture],
   ];
+
+  if (data.eventSchedule) {
+    rows.push(["参加日程", data.eventSchedule]);
+  }
 
   return rows
     .map(([label, value]) => `<div class="confirm-row"><span class="confirm-label">${label}</span><span class="confirm-value">${value}</span></div>`)
@@ -363,11 +412,18 @@ async function submitData(data) {
 // Init
 // ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
-  await Promise.all([loadAllOptions(), initLiff()]);
+  await Promise.all([loadAllOptions(), initLiff(), loadEventSchedules()]);
   document.getElementById("register-form").addEventListener("submit", handleSubmit);
 
   // 電話番号ハイフン自動付与
   document.getElementById("tel").addEventListener("input", (e) => formatTel(e.target));
+
+  // ラジオボタン選択時にエラー解除
+  document.querySelectorAll('input[name="event-schedule"]').forEach((el) => {
+    el.addEventListener("change", () => {
+      el.closest(".field-group")?.classList.remove("error");
+    });
+  });
 
   // Real-time validation: clear error on input
   document.querySelectorAll("input, select").forEach((el) => {
