@@ -20,27 +20,16 @@ function doGet(e) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    console.log("today: " + today.toISOString());
-    console.log("rawData: " + JSON.stringify(rawData));
-    console.log("displayData: " + JSON.stringify(displayData));
-
     for (var i = 0; i < rawData.length; i++) {
       if (displayData[i][1] === "") continue;
 
       var rawDate = rawData[i][1];
-      var dateObj;
-      if (rawDate instanceof Date) {
-        dateObj = rawDate;
-        console.log("row " + i + ": Date型 -> " + dateObj.toISOString());
+      var dateObj = new Date(rawDate);
+      if (isNaN(dateObj.getTime())) {
+        dateObj = null;
       } else {
-        // 表示文字列 "2026年03月25日(水)" からパース
-        var m = String(rawDate).match(/(\d{4})年(\d{2})月(\d{2})日/);
-        dateObj = m ? new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])) : null;
-        console.log("row " + i + ": 文字列型 -> rawDate=" + rawDate + ", parsed=" + (dateObj ? dateObj.toISOString() : "null"));
+        dateObj.setHours(0, 0, 0, 0);
       }
-
-      var isPast = dateObj && dateObj < today;
-      console.log("row " + i + ": isPast=" + isPast + ", dateObj=" + (dateObj ? dateObj.toISOString() : "null"));
 
       // 過去日程をスキップ
       if (isPast) continue;
