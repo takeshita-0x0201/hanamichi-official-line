@@ -23,14 +23,23 @@ function doGet(e) {
     for (var i = 0; i < rawData.length; i++) {
       if (displayData[i][1] === "") continue;
 
-      // 過去日程をスキップ
       var rawDate = rawData[i][1];
-      if (rawDate instanceof Date && rawDate < today) continue;
+      var dateObj;
+      if (rawDate instanceof Date) {
+        dateObj = rawDate;
+      } else {
+        // 表示文字列 "2026年03月25日(水)" からパース
+        var m = String(rawDate).match(/(\d{4})年(\d{2})月(\d{2})日/);
+        dateObj = m ? new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])) : null;
+      }
+
+      // 過去日程をスキップ
+      if (dateObj && dateObj < today) continue;
 
       var date = displayData[i][1];
       var time = displayData[i][2] || "";
       schedules.push({
-        sortKey: rawDate instanceof Date ? rawDate.getTime() : 0,
+        sortKey: dateObj ? dateObj.getTime() : 0,
         date: date,
         time: time,
         label: time ? date + " " + time : date,
