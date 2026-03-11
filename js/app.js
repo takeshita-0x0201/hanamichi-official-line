@@ -118,13 +118,15 @@ function fetchGasJson(url) {
 }
 
 async function loadEventSchedules() {
+  const group = document.getElementById("event-schedule-group");
+  const loading = document.getElementById("schedule-loading");
+
   try {
     const json = await fetchGasJson(CONFIG.GAS_ENDPOINT);
     const schedules = json.schedules || [];
-    if (schedules.length === 0) return;
 
-    const section = document.getElementById("event-schedule-section");
-    const group = document.getElementById("event-schedule-group");
+    loading.remove();
+
     schedules.forEach((s, i) => {
       const label = document.createElement("label");
       label.className = "radio-label";
@@ -139,6 +141,7 @@ async function loadEventSchedules() {
       label.appendChild(span);
       group.appendChild(label);
     });
+
     // 「日程が合わない」を末尾に追加
     const noMatchLabel = document.createElement("label");
     noMatchLabel.className = "radio-label";
@@ -152,10 +155,9 @@ async function loadEventSchedules() {
     noMatchLabel.appendChild(noMatchInput);
     noMatchLabel.appendChild(noMatchSpan);
     group.appendChild(noMatchLabel);
-
-    section.style.display = "";
   } catch (e) {
     console.error("Failed to load event schedules:", e);
+    loading.innerHTML = '<span style="color:#ff3b30;font-size:0.8125rem;">日程の取得に失敗しました</span>';
   }
 }
 

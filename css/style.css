@@ -300,6 +300,21 @@ select option {
   line-height: 1.4;
 }
 
+.schedule-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 0;
+  font-size: 0.8125rem;
+  color: #6e6e73;
+}
+
+.schedule-loading .spinner {
+  border: 2.5px solid #e5e5ea;
+  border-top-color: #007aff;
+}
+
 .field-group.error .radio-group .radio-label {
   border-color: #ff3b30;
   background: #fff5f5;
