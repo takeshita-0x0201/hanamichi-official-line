@@ -32,7 +32,7 @@ function doGet(e) {
       }
 
       // 過去日程をスキップ
-      if (isPast) continue;
+      if (dateObj && dateObj < today) continue;
 
       var date = displayData[i][1];
       var time = displayData[i][2] || "";
