@@ -15,18 +15,26 @@ function doGet(e) {
   var schedules = [];
   if (sheet && sheet.getLastRow() > 1) {
     const range = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3);
+    const rawData = range.getValues();
     const displayData = range.getDisplayValues();
-    schedules = displayData
-      .filter(function(row) { return row[1] !== ""; })
-      .map(function(row) {
-        var date = row[1];
-        var time = row[2] || "";
-        return {
-          date: date,
-          time: time,
-          label: time ? date + " " + time : date,
-        };
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    for (var i = 0; i < rawData.length; i++) {
+      if (displayData[i][1] === "") continue;
+
+      // 過去日程をスキップ
+      var rawDate = rawData[i][1];
+      if (rawDate instanceof Date && rawDate < today) continue;
+
+      var date = displayData[i][1];
+      var time = displayData[i][2] || "";
+      schedules.push({
+        date: date,
+        time: time,
+        label: time ? date + " " + time : date,
       });
+    }
   }
 
   const jsonStr = JSON.stringify({ schedules: schedules });
