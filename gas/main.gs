@@ -14,11 +14,22 @@ function doGet(e) {
 
   var schedules = [];
   if (sheet && sheet.getLastRow() > 1) {
+    const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
     const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
     schedules = data
       .filter(function(row) { return row[1] !== ""; })
       .map(function(row) {
-        var date = row[1].toString();
+        var rawDate = row[1];
+        var date;
+        if (rawDate instanceof Date) {
+          var y = rawDate.getFullYear();
+          var m = ("0" + (rawDate.getMonth() + 1)).slice(-2);
+          var d = ("0" + rawDate.getDate()).slice(-2);
+          var dow = dayNames[rawDate.getDay()];
+          date = y + "年" + m + "月" + d + "日(" + dow + ")";
+        } else {
+          date = rawDate.toString();
+        }
         var time = row[2] ? row[2].toString() : "";
         return {
           date: date,
