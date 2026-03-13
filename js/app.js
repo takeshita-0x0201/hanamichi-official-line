@@ -452,8 +452,12 @@ async function sendLineMessageFromUser(data) {
     return;
   }
 
-  const message = buildLineMessage(data);
-  await liff.sendMessages([{ type: "text", text: message }]);
+  try {
+    const message = buildLineMessage(data);
+    await liff.sendMessages([{ type: "text", text: message }]);
+  } catch (err) {
+    console.error("liff.sendMessages failed:", err);
+  }
 }
 
 async function submitData(data) {
