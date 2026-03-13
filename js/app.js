@@ -409,6 +409,53 @@ function showConfirmModal(data) {
   };
 }
 
+function buildLineMessage(data) {
+  const birthday = data.birthYear + "年" + data.birthMonth + "月" + data.birthDay + "日";
+  const lines = [
+    "【登録内容】",
+    "",
+    "■ アカウント情報",
+    "メールアドレス: " + data.email,
+    "電話番号: " + data.tel,
+    "",
+    "■ 個人情報",
+    "氏名: " + data.lastName + " " + data.firstName,
+    "ふりがな: " + data.lastNameKana + " " + data.firstNameKana,
+    "生年月日: " + birthday,
+    "性別: " + data.gender,
+    "",
+    "■ 学校情報",
+    "大学名: " + data.university,
+    "学部: " + data.faculty,
+    "学科: " + data.department,
+    "学業種別: " + data.academicType,
+    "学年: " + data.grade,
+    "",
+    "■ 活動情報",
+    "部活・サークル: " + data.club,
+    "役職: " + data.position,
+    "出身地: " + data.prefecture,
+  ];
+
+  if (data.eventSchedule) {
+    lines.push("");
+    lines.push("■ 参加日程");
+    lines.push(data.eventSchedule);
+  }
+
+  return lines.join("\n");
+}
+
+async function sendLineMessageFromUser(data) {
+  if (!liff.isInClient()) {
+    console.warn("Not in LINE app — skipping liff.sendMessages()");
+    return;
+  }
+
+  const message = buildLineMessage(data);
+  await liff.sendMessages([{ type: "text", text: message }]);
+}
+
 async function submitData(data) {
   const btn = document.getElementById("submit-btn");
   btn.disabled = true;
@@ -422,6 +469,9 @@ async function submitData(data) {
       body: JSON.stringify(data),
       mode: "no-cors",
     });
+
+    // ユーザーから公式LINEへ登録内容を送信
+    await sendLineMessageFromUser(data);
 
     // Show complete screen
     document.getElementById("form-screen").style.display = "none";
