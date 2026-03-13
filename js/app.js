@@ -462,9 +462,10 @@ async function sendLineMessageFromUser(data) {
 
 async function submitData(data) {
   const btn = document.getElementById("submit-btn");
+  const loadingModal = document.getElementById("loading-modal");
+
   btn.disabled = true;
-  btn.classList.add("loading");
-  btn.innerHTML = '<span class="spinner"></span>送信中...';
+  loadingModal.classList.add("show");
 
   try {
     // ユーザーから公式LINEへ登録内容を送信（先に送る）
@@ -478,6 +479,8 @@ async function submitData(data) {
       mode: "no-cors",
     });
 
+    loadingModal.classList.remove("show");
+
     // Show complete screen
     document.getElementById("form-screen").style.display = "none";
     document.getElementById("complete-screen").classList.add("show");
@@ -488,14 +491,13 @@ async function submitData(data) {
     }
   } catch (err) {
     console.error("Submit error:", err);
+    loadingModal.classList.remove("show");
     const banner = document.querySelector(".error-banner");
     if (banner) {
       banner.textContent = "送信に失敗しました。もう一度お試しください。";
       banner.classList.add("show");
     }
     btn.disabled = false;
-    btn.classList.remove("loading");
-    btn.innerHTML = "登録する";
   }
 }
 
