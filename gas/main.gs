@@ -79,7 +79,7 @@ function doPost(e) {
 
     // LINE完了メッセージ送信
     if (data.userId) {
-      sendLineMessage(data.userId, "登録が完了しました。");
+      sendLineMessage(data.userId, "登録が完了しました。ありがとうございました。");
     }
 
     return ContentService

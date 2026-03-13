@@ -467,15 +467,16 @@ async function submitData(data) {
   btn.innerHTML = '<span class="spinner"></span>送信中...';
 
   try {
+    // ユーザーから公式LINEへ登録内容を送信（先に送る）
+    await sendLineMessageFromUser(data);
+
+    // GASへPOST（スプレッドシート保存 + 完了メッセージ Push送信）
     await fetch(CONFIG.GAS_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
       body: JSON.stringify(data),
       mode: "no-cors",
     });
-
-    // ユーザーから公式LINEへ登録内容を送信
-    await sendLineMessageFromUser(data);
 
     // Show complete screen
     document.getElementById("form-screen").style.display = "none";
